@@ -1,11 +1,13 @@
-const fs = require("fs");
-const ethers = require("ethers");
+import fs from "fs";
+import { ethers } from "ethers";
+import path from "path";
 
 const getContract = async () => {
   try {
     const file = () => {
       return new Promise((resolve, reject) => {
-        fs.readFile("./contract.json", "utf-8", (err, data) => {
+        const filePath = path.join(__dirname, "../contract.json");
+        fs.readFile(filePath, "utf-8", (err, data) => {
           if (err) reject(err);
           else resolve(data);
         });
@@ -20,13 +22,14 @@ const getContract = async () => {
 
 const NftContract = async (price, uri, creator) => {
   const data = await getContract();
-  const parsedData = JSON.parse(data);
+
+  const parsedData = JSON.parse(data as string);
   const provider = new ethers.providers.JsonRpcProvider(
     "https://polygon-mumbai.g.alchemy.com/v2/oHLDPPY_psBo2BMiz2y1sKxSiZIFyEDy"
   );
 
   const privatekey = process.env.PRIVATE_KEY;
-  const wallet = new ethers.Wallet(privatekey, provider);
+  const wallet = new ethers.Wallet(privatekey as string, provider);
   const nftPrice = ethers.utils.parseEther(price);
 
   // Deploy the contract
@@ -40,4 +43,4 @@ const NftContract = async (price, uri, creator) => {
   return contract.address;
 };
 
-module.exports = NftContract;
+export default NftContract;
