@@ -17,7 +17,7 @@ export default merge(
   {
     stage,
     env: process.env.NODE_ENV,
-    port: 3001,
+    port: process.env.PORT || 3000,
   },
   envConfig
 );

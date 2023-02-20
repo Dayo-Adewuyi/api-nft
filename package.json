@@ -6,8 +6,9 @@
   "scripts": {
     "test": "jest",
     "dev": "ts-node src/index.ts",
-    "build": "tsc -p tsconfig.json",
-    "start": "node dist/index.js"
+    "build": "npm install && tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "postinstall": "tsc"
   },
   "keywords": [],
   "author": "",
